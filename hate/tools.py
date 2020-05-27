@@ -1,21 +1,25 @@
 from types import SimpleNamespace
 import numpy as np
-from hate import config
+from . import config
 from .tokenizer import tokenizer
 from .model import model
+from . import client
 
 
-def classify(texts):
+def classify(texts, server=None):
     num_batches = int(np.ceil(len(texts) / config.batch_size))
     result = []
     for batch in np.array_split(texts, num_batches):
-        result += classify_batch(batch)
+        result += classify_batch(batch, server=server)
     return result
 
 
-def classify_batch(batch):
+def classify_batch(batch, server):
     batch_ids = tokenize_batch(batch)
-    scores = model(batch_ids).numpy()
+    if server is None:
+        scores = model(batch_ids).numpy()
+    else:
+        scores = client.score_batch(batch_ids, server)
     return [score[0] < score[1] for score in scores]
 
 
