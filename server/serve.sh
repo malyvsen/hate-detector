@@ -1,3 +1,4 @@
+#!/bin/bash
 systemctl start docker.service &&
 docker pull tensorflow/serving &&
 docker run -it --rm -p 8501:8501 \
