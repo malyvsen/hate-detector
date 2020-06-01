@@ -1,4 +1,5 @@
 import argparse
+from tqdm import tqdm
 import hate
 
 
@@ -13,7 +14,7 @@ with open(args.input, 'r') as input:
 if to_classify[-1] == '':
     to_classify = to_classify[:-1] # newline at end of file
 
-classes = hate.classify(to_classify, server=args.server)
+classes = hate.classify(to_classify, server=args.server, progress=tqdm)
 classes = [str(int(c)) for c in classes]
 with open(args.output, 'w') as output:
     output.write('\n'.join(classes) + '\n')

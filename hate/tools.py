@@ -6,10 +6,10 @@ from .model import model
 from . import client
 
 
-def classify(texts, server=None):
+def classify(texts, server=None, progress=lambda x: x):
     num_batches = int(np.ceil(len(texts) / config.batch_size))
     result = []
-    for batch in np.array_split(texts, num_batches):
+    for batch in progress(np.array_split(texts, num_batches)):
         result += classify_batch(batch, server=server)
     return result
 
