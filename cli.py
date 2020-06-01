@@ -1,5 +1,4 @@
 import argparse
-import pandas as pd
 import hate
 
 
@@ -9,8 +8,12 @@ parser.add_argument('output')
 parser.add_argument('--server')
 args = parser.parse_args()
 
-to_classify = pd.read_csv(args.input, names=['text'])
-classes = hate.classify(to_classify.text.values, server=args.server)
-classes = [int(c) for c in classes]
-classes = pd.DataFrame.from_dict({'class': classes})
-classes.to_csv(args.output, header=False, index=False)
+with open(args.input, 'r') as input:
+    to_classify = input.read().split('\n')
+if to_classify[-1] == '':
+    to_classify = to_classify[:-1] # newline at end of file
+
+classes = hate.classify(to_classify, server=args.server)
+classes = [str(int(c)) for c in classes]
+with open(args.output, 'w') as output:
+    output.write('\n'.join(classes) + '\n')
