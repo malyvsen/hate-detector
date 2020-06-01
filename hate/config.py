@@ -11,4 +11,4 @@ pretrained_name = 'distilbert-base-uncased'
 
 input_layer_name = 'input'
 max_sequence_length = 256
-batch_size = 64
+batch_size = 4
