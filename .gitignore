@@ -139,3 +139,9 @@ cython_debug/
 
 # VS Code files
 .vscode
+
+# trained model (too heavy to host on GitHub, get it from https://www.kaggle.com/malyvsen/toxicity-detection)
+hate/model/
+
+# model converted to servable format (get it by running convert_model.ipynb)
+server/model/
