@@ -24,6 +24,14 @@ def classify_batch(batch, server):
 
 
 def tokenize_batch(batch):
-    encoded = [tokenizer.encode_plus(t, max_length=config.max_sequence_length, pad_to_max_length=True) for t in batch]
+    encoded = [
+        tokenizer.encode_plus(
+            t,
+            max_length=config.max_sequence_length,
+            pad_to_max_length=True,
+            truncation=True
+        )
+        for t in batch
+    ]
     input_ids = [t['input_ids'] for t in encoded]
     return np.array(input_ids)
